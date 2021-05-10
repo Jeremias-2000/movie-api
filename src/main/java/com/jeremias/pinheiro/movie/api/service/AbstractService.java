@@ -4,4 +4,8 @@ import java.util.List;
 
 public interface AbstractService<M> {
     List<M> findMovies();
+
+
+
+    M save(M movie);
 }

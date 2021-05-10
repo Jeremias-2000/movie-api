@@ -19,4 +19,10 @@ public class MovieService implements AbstractService<Movie>{
     public List<Movie> findMovies() {
         return repository.findAll();
     }
+
+
+    @Override
+    public Movie save(Movie movie) {
+        return repository.save(movie);
+    }
 }
