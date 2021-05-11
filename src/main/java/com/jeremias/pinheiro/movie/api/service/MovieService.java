@@ -2,12 +2,16 @@ package com.jeremias.pinheiro.movie.api.service;
 
 import com.jeremias.pinheiro.movie.api.dto.MovieDTO;
 import com.jeremias.pinheiro.movie.api.entity.Movie;
+import com.jeremias.pinheiro.movie.api.exception.FilmExceptionAlreadyExists;
 import com.jeremias.pinheiro.movie.api.exception.MovieNotFoundException;
 import com.jeremias.pinheiro.movie.api.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
+import static java.util.Optional.*;
 
 
 @Service
@@ -32,7 +36,7 @@ public class MovieService implements AbstractService<Movie>{
     }
 
     @Override
-    public List<Movie> findMovieByName(String name) {
+    public Movie findMovieByName(String name) {
         return repository.findMovieByName(name);
     }
 
@@ -55,7 +59,10 @@ public class MovieService implements AbstractService<Movie>{
 
     @Override
     public Movie save(MovieDTO movieDTO) {
-        return repository.save(convertDTO(movieDTO));
+        checkThatTheMovieIsNotNull(ofNullable(movieDTO));
+        checkIfTheMovieIsAlreadyRegistered(movieDTO);
+        Movie movie = convertDTO(movieDTO);
+        return repository.save(movie);
     }
 
     @Override
@@ -72,5 +79,21 @@ public class MovieService implements AbstractService<Movie>{
         movie.setRating(movieDTO.getRating());
         movie.setMovieGenre(movieDTO.getMovieGenre());
         return movie;
+    }
+
+    @Override
+    public void checkThatTheMovieIsNotNull(Optional<MovieDTO> dto) {
+        if (dto.isEmpty())
+            throw new NullPointerException();
+    }
+
+    @Override
+    public void checkIfTheMovieIsAlreadyRegistered(MovieDTO dto) {
+        Movie convert = convertDTO(dto);
+        Optional<Movie> check;
+        check = Optional.ofNullable(repository.findMovieByName(convert.getName()));
+        if (check.isPresent()){
+            throw new FilmExceptionAlreadyExists();
+        }
     }
 }

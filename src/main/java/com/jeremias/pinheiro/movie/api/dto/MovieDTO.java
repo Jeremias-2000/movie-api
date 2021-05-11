@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.validation.constraints.NotBlank;
 
 @Data
 @Builder
@@ -17,9 +18,13 @@ import javax.persistence.Enumerated;
 @NoArgsConstructor
 public class MovieDTO {
 
+    @NotBlank
     private String name;
+    @NotBlank
     private String description;
+    @NotBlank
     private double rating;
+    @NotBlank
     @Enumerated(EnumType.STRING)
     private MovieGenre movieGenre;
 

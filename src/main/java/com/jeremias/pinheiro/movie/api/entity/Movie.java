@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 @Entity
@@ -19,9 +20,13 @@ public class Movie implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotBlank
     private String name;
+    @NotBlank
     private String description;
+    @NotBlank
     private double rating;
+    @NotBlank
     @Enumerated(EnumType.STRING)
     private MovieGenre movieGenre;
 
