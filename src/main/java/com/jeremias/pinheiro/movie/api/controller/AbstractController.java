@@ -4,6 +4,8 @@ import com.jeremias.pinheiro.movie.api.dto.MovieDTO;
 import com.jeremias.pinheiro.movie.api.entity.Movie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 
 public interface AbstractController {
 
@@ -23,7 +25,7 @@ public interface AbstractController {
     ResponseEntity<?> updateMovieById(@PathVariable("id") Long id,@RequestBody MovieDTO dto);
 
     @PostMapping("/create")
-    ResponseEntity<?> saveMovie(@RequestBody MovieDTO movieDTO);
+    ResponseEntity<?> saveMovie(@RequestBody MovieDTO movieDTO, UriComponentsBuilder uriBuilder);
 
     @DeleteMapping("/delete/id/{id}")
     ResponseEntity<?> deleteMovieById(@PathVariable("id") Long id);

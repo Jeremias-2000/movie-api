@@ -3,6 +3,7 @@ package com.jeremias.pinheiro.movie.api.entity;
 import com.jeremias.pinheiro.movie.api.enums.MovieGenre;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import java.io.Serializable;
 @Data
 @Table
 @AllArgsConstructor
+@EqualsAndHashCode
 @NoArgsConstructor
 public class Movie implements Serializable {
 

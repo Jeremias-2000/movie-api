@@ -1,12 +1,16 @@
 package com.jeremias.pinheiro.movie.api.controller;
 
 import com.jeremias.pinheiro.movie.api.dto.MovieDTO;
+import com.jeremias.pinheiro.movie.api.entity.Movie;
 import com.jeremias.pinheiro.movie.api.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/api/v1/movies")
@@ -27,8 +31,10 @@ public class MovieController implements AbstractController{
 
 
     @Override
-    public ResponseEntity<?> saveMovie(MovieDTO movieDTO) {
-        return new ResponseEntity<>(service.save(movieDTO), HttpStatus.CREATED);
+    public ResponseEntity<?> saveMovie(MovieDTO movieDTO, UriComponentsBuilder uriBuilder) {
+       return new ResponseEntity<>(service.save(movieDTO),HttpStatus.CREATED);
+
+
     }
 
 

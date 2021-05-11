@@ -10,12 +10,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static java.util.Optional.*;
 
 
 @Service
-public class MovieService implements AbstractService<Movie>{
+public class MovieService implements AbstractService<MovieDTO>{
 
     @Autowired
     private MovieRepository repository;
@@ -26,48 +27,58 @@ public class MovieService implements AbstractService<Movie>{
 
 
     @Override
-    public List<Movie> findMovies() {
-        return repository.findAll();
+    public List<MovieDTO> findMovies() {
+        List<Movie> movies = repository.findAll();
+        return convertDTO(movies);
     }
 
     @Override
-    public List<Movie> findMoviesByMovieGenre(String genre) {
-        return repository.findMovieByMovieGenre(genre);
+    public List<MovieDTO> convertDTO(List<Movie> movies) {
+        return movies.stream().map(MovieDTO :: new).collect(Collectors.toList());
     }
 
     @Override
-    public Movie findMovieByName(String name) {
-        return repository.findMovieByName(name);
+    public List<MovieDTO> findMoviesByMovieGenre(String genre) {
+        List<Movie> movies =  repository.findMovieByMovieGenre(genre);
+        return convertDTO(movies);
     }
 
     @Override
-    public Movie findMovieById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new MovieNotFoundException(id));
+    public MovieDTO findMovieByName(String name) {
+        MovieDTO dto = convertEntity(repository.findMovieByName(name));
+        return dto;
     }
 
     @Override
-    public Movie updateMovie(Long id, MovieDTO movieDTO) {
-        Movie search = findMovieById(id);
+    public MovieDTO findMovieById(Long id) {
+        MovieDTO dto = convertEntity( repository.findById(id)
+                .orElseThrow(() -> new MovieNotFoundException(id)));
+        return dto;
+    }
+
+    @Override
+    public MovieDTO updateMovie(Long id, MovieDTO movieDTO) {
+        Movie search = convertDTO(findMovieById(id));
 
         search.setName(movieDTO.getName());
         search.setDescription(movieDTO.getDescription());
         search.setRating(movieDTO.getRating());
         search.setMovieGenre(movieDTO.getMovieGenre());
-        return search;
+        return movieDTO;
     }
 
     @Override
-    public Movie save(MovieDTO movieDTO) {
+    public MovieDTO save(MovieDTO movieDTO) {
         checkThatTheMovieIsNotNull(ofNullable(movieDTO));
         checkIfTheMovieIsAlreadyRegistered(movieDTO);
         Movie movie = convertDTO(movieDTO);
-        return repository.save(movie);
+        repository.save(movie);
+        return movieDTO;
     }
 
     @Override
     public void deleteMovieById(Long id) {
-        Movie deleted = findMovieById(id);
+        Movie deleted = convertDTO(findMovieById(id));
         repository.delete(deleted);
     }
 
@@ -82,8 +93,19 @@ public class MovieService implements AbstractService<Movie>{
     }
 
     @Override
+    public MovieDTO convertEntity(Movie movie) {
+        MovieDTO dto = null;
+        dto.setId(movie.getId());
+        dto.setName(movie.getName());
+        dto.setDescription(movie.getDescription());
+        dto.setRating(movie.getRating());
+        dto.setMovieGenre(movie.getMovieGenre());
+        return dto;
+    }
+
+    @Override
     public void checkThatTheMovieIsNotNull(Optional<MovieDTO> dto) {
-        if (dto.isEmpty())
+        if (!dto.isPresent())
             throw new NullPointerException();
     }
 
