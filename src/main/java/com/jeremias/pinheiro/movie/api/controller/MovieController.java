@@ -1,5 +1,6 @@
 package com.jeremias.pinheiro.movie.api.controller;
 
+import com.jeremias.pinheiro.movie.api.dto.MovieDTO;
 import com.jeremias.pinheiro.movie.api.entity.Movie;
 import com.jeremias.pinheiro.movie.api.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class MovieController implements AbstractController{
 
 
     @Override
-    public ResponseEntity<?> saveMovie(Movie movie) {
-        return new ResponseEntity<>(service.save(movie), HttpStatus.CREATED);
+    public ResponseEntity<?> saveMovie(MovieDTO movieDTO) {
+        return new ResponseEntity<>(service.save(movieDTO), HttpStatus.CREATED);
     }
 }

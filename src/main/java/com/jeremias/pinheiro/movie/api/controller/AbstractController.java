@@ -1,5 +1,6 @@
 package com.jeremias.pinheiro.movie.api.controller;
 
+import com.jeremias.pinheiro.movie.api.dto.MovieDTO;
 import com.jeremias.pinheiro.movie.api.entity.Movie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,5 +14,5 @@ public interface AbstractController {
     ResponseEntity<?> findAllMovies();
 
     @PostMapping("/create")
-    ResponseEntity<?> saveMovie(@RequestBody Movie movie);
+    ResponseEntity<?> saveMovie(@RequestBody MovieDTO movieDTO);
 }

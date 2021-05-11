@@ -1,23 +1,21 @@
-package com.jeremias.pinheiro.movie.api.entity;
+package com.jeremias.pinheiro.movie.api.dto;
+
 
 import com.jeremias.pinheiro.movie.api.enums.MovieGenre;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.io.Serializable;
 
-@Entity
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
 @Data
-@Table
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Movie implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class MovieDTO {
 
     private String name;
     private String description;
