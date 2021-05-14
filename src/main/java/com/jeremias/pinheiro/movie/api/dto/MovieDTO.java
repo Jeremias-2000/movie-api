@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.hateoas.RepresentationModel;
 
 
 import javax.persistence.EnumType;
@@ -17,7 +18,7 @@ import javax.validation.constraints.NotBlank;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MovieDTO {
+public class MovieDTO extends RepresentationModel<MovieDTO> {
 
     private Long id;
 

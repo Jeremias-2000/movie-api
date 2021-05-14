@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
+import java.util.Optional;
+
+import static java.util.Optional.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/api/v1/movies")
@@ -26,7 +32,16 @@ public class MovieController implements AbstractController{
 
     @Override
     public ResponseEntity<?> findAllMovies() {
-        return ResponseEntity.ok(service.findMovies());
+        List<MovieDTO> movies = service.findMovies();
+        if (movies.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }else{
+            for (MovieDTO dto: movies) {
+                long id = dto.getId();
+                dto.add(linkTo(methodOn(MovieController.class).findMovieById(id)).withSelfRel());
+            }
+        }
+        return ResponseEntity.ok(movies);
     }
 
 
@@ -50,7 +65,13 @@ public class MovieController implements AbstractController{
 
     @Override
     public ResponseEntity<?> findMovieById(Long id) {
-        return ResponseEntity.ok(service.findMovieById(id));
+        Optional<MovieDTO> search = ofNullable(service.findMovieById(id));
+        if (search.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }else{
+            search.get().add(linkTo(methodOn(MovieController.class).findAllMovies()).withSelfRel());
+            return ResponseEntity.ok(search);
+        }
     }
 
     @Override
