@@ -69,8 +69,7 @@ public class MovieService implements AbstractService<MovieDTO>{
 
     @Override
     public MovieDTO save(MovieDTO movieDTO) {
-        checkThatTheMovieIsNotNull(ofNullable(movieDTO));
-        checkIfTheMovieIsAlreadyRegistered(movieDTO);
+
         Movie movie = convertDTO(movieDTO);
         repository.save(movie);
         return movieDTO;
@@ -84,7 +83,8 @@ public class MovieService implements AbstractService<MovieDTO>{
 
     @Override
     public Movie convertDTO(MovieDTO movieDTO) {
-        Movie movie = null;
+        Movie movie = new Movie();
+        movie.setId(movie.getId());
         movie.setName(movieDTO.getName());
         movie.setDescription(movieDTO.getDescription());
         movie.setRating(movieDTO.getRating());
@@ -94,7 +94,7 @@ public class MovieService implements AbstractService<MovieDTO>{
 
     @Override
     public MovieDTO convertEntity(Movie movie) {
-        MovieDTO dto = null;
+        MovieDTO dto = new MovieDTO();
         dto.setId(movie.getId());
         dto.setName(movie.getName());
         dto.setDescription(movie.getDescription());

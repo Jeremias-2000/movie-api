@@ -25,7 +25,7 @@ public interface AbstractController {
     ResponseEntity<?> updateMovieById(@PathVariable("id") Long id,@RequestBody MovieDTO dto);
 
     @PostMapping("/create")
-    ResponseEntity<?> saveMovie(@RequestBody MovieDTO movieDTO, UriComponentsBuilder uriBuilder);
+    ResponseEntity<?> saveMovie(@RequestBody MovieDTO movieDTO);
 
     @DeleteMapping("/delete/id/{id}")
     ResponseEntity<?> deleteMovieById(@PathVariable("id") Long id);

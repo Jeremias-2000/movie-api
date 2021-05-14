@@ -17,7 +17,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @EqualsAndHashCode
 @NoArgsConstructor
-public class Movie implements Serializable {
+public class Movie  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

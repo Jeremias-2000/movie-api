@@ -46,10 +46,8 @@ public class MovieController implements AbstractController{
 
 
     @Override
-    public ResponseEntity<?> saveMovie(MovieDTO movieDTO, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<?> saveMovie(MovieDTO movieDTO) {
        return new ResponseEntity<>(service.save(movieDTO),HttpStatus.CREATED);
-
-
     }
 
 
@@ -69,7 +67,7 @@ public class MovieController implements AbstractController{
         if (search.isEmpty()){
             return ResponseEntity.notFound().build();
         }else{
-            search.get().add(linkTo(methodOn(MovieController.class).findAllMovies()).withSelfRel());
+            search.get().add(linkTo(methodOn(MovieController.class).findAllMovies()).withRel("Listar filmes :"));
             return ResponseEntity.ok(search);
         }
     }
