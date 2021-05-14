@@ -4,6 +4,8 @@ import com.jeremias.pinheiro.movie.api.dto.MovieDTO;
 import com.jeremias.pinheiro.movie.api.entity.Movie;
 import com.jeremias.pinheiro.movie.api.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,14 +33,14 @@ public class MovieController implements AbstractController{
 
 
     @Override
-    public ResponseEntity<?> findAllMovies() {
-        List<MovieDTO> movies = service.findMovies();
+    public ResponseEntity<?> findAllMovies(Pageable pageable) {
+        Page<MovieDTO> movies = service.findMovies(pageable);
         if (movies.isEmpty()){
             return ResponseEntity.notFound().build();
         }else{
             for (MovieDTO dto: movies) {
                 long id = dto.getId();
-                dto.add(linkTo(methodOn(MovieController.class).findMovieById(id)).withSelfRel());
+                dto.add(linkTo(methodOn(MovieController.class).findMovieById(id,pageable)).withSelfRel());
             }
         }
         return ResponseEntity.ok(movies);
@@ -52,24 +54,23 @@ public class MovieController implements AbstractController{
 
 
     @Override
-    public ResponseEntity<?> findMoviesByMovieGenre(String genre) {
-        return ResponseEntity.ok(service.findMoviesByMovieGenre(genre));
-    }
-
-    @Override
     public ResponseEntity<?> findMovieByName(String name) {
         return ResponseEntity.ok(service.findMovieByName(name));
     }
 
     @Override
-    public ResponseEntity<?> findMovieById(Long id) {
+    public ResponseEntity<?> findMovieById(Long id,Pageable pageable) {
+        /*
         Optional<MovieDTO> search = ofNullable(service.findMovieById(id));
         if (search.isEmpty()){
             return ResponseEntity.notFound().build();
         }else{
-            search.get().add(linkTo(methodOn(MovieController.class).findAllMovies()).withRel("Listar filmes :"));
+            search.get().add(linkTo(methodOn(MovieController.class).findAllMovies(pageable)).withRel("Listar filmes :"));
             return ResponseEntity.ok(search);
         }
+
+         */
+        return ResponseEntity.ok(service.findMovieById(id));
     }
 
     @Override

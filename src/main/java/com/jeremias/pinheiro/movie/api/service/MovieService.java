@@ -6,6 +6,8 @@ import com.jeremias.pinheiro.movie.api.exception.FilmExceptionAlreadyExists;
 import com.jeremias.pinheiro.movie.api.exception.MovieNotFoundException;
 import com.jeremias.pinheiro.movie.api.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,21 +29,21 @@ public class MovieService implements AbstractService<MovieDTO>{
 
 
     @Override
-    public List<MovieDTO> findMovies() {
-        List<Movie> movies = repository.findAll();
+    public Page<MovieDTO> findMovies(Pageable pageable) {
+        Page<Movie> movies = repository.findAll(pageable);
         return convertDTO(movies);
     }
 
     @Override
-    public List<MovieDTO> convertDTO(List<Movie> movies) {
-        return movies.stream().map(MovieDTO :: new).collect(Collectors.toList());
+    public Page<MovieDTO> convertDTO(Page<Movie> movies) {
+        return movies.map(MovieDTO::new);
     }
-
+    /*
     @Override
-    public List<MovieDTO> findMoviesByMovieGenre(String genre) {
-        List<Movie> movies =  repository.findMovieByMovieGenre(genre);
+    public Page<MovieDTO> findMoviesByMovieGenre(String genre, Pageable pageable) {
+        Page<Movie> movies =  repository.findMovieByMovieGenre(genre,pageable);
         return convertDTO(movies);
-    }
+    }*/
 
     @Override
     public MovieDTO findMovieByName(String name) {
