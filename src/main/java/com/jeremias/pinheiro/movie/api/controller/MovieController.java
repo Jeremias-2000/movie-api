@@ -2,6 +2,7 @@ package com.jeremias.pinheiro.movie.api.controller;
 
 import com.jeremias.pinheiro.movie.api.dto.MovieDTO;
 import com.jeremias.pinheiro.movie.api.entity.Movie;
+import com.jeremias.pinheiro.movie.api.enums.MovieGenre;
 import com.jeremias.pinheiro.movie.api.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,6 +38,7 @@ public class MovieController implements AbstractController{
     public ResponseEntity<?> findAllMovies( ) {
 
         /*
+
         Page<MovieDTO> movies = service.findMovies(pageable);
         if (movies.isEmpty()){
             return ResponseEntity.notFound().build();
@@ -61,7 +63,7 @@ public class MovieController implements AbstractController{
     }
 
     @Override
-    public ResponseEntity<?> findMovieByMovieGenre(String movieGenre) {
+    public ResponseEntity<?> findMovieByMovieGenre(MovieGenre movieGenre) {
         return ResponseEntity.ok(service.findMovieByMovieGenre(movieGenre));
     }
 

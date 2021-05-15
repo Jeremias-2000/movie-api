@@ -1,19 +1,18 @@
 package com.jeremias.pinheiro.movie.api.entity;
 
 import com.jeremias.pinheiro.movie.api.enums.MovieGenre;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
 @Entity
+@Builder
 @Data
 @Table
 @AllArgsConstructor
@@ -25,18 +24,18 @@ public class Movie  {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotBlank
+    @NotNull
     private String name;
-    @NotBlank
+    @NotNull
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date date;
-    @NotBlank
+    @NotNull
     private String moviesDirector;
     @NotBlank
     private String description;
     @NotBlank
     private double rating;
-    @NotBlank
+    @NotNull
     @Enumerated(EnumType.STRING)
     private MovieGenre movieGenre;
 
