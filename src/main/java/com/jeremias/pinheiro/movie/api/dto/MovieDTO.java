@@ -14,6 +14,7 @@ import org.springframework.hateoas.RepresentationModel;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
@@ -25,18 +26,18 @@ public class MovieDTO extends RepresentationModel<MovieDTO> {
 
 
     private Long id;
-    @NotBlank
+    @NotNull
     private String name;
-    @NotBlank
+    @NotNull
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date date;
-    @NotBlank
+    @NotNull
     private String moviesDirector;
     @NotBlank
     private String description;
     @NotBlank
     private double rating;
-    @NotBlank
+    @NotNull
     @Enumerated(EnumType.STRING)
     private MovieGenre movieGenre;
 

@@ -2,6 +2,7 @@ package com.jeremias.pinheiro.movie.api.service;
 
 import com.jeremias.pinheiro.movie.api.dto.MovieDTO;
 import com.jeremias.pinheiro.movie.api.entity.Movie;
+import com.jeremias.pinheiro.movie.api.enums.MovieGenre;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,7 +13,7 @@ public interface AbstractService<M> {
     List<M> findMovies();
 
     M findMovieByName(String name);
-    List<M> findMovieByMovieGenre(String movieGenre);
+    List<M> findMovieByMovieGenre(MovieGenre movieGenre);
     M findMovieById(Long id);
     M updateMovie(Long id, MovieDTO movieDTO);
     M save(MovieDTO movieDTO);

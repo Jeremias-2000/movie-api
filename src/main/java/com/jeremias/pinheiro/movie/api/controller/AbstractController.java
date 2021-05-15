@@ -2,6 +2,7 @@ package com.jeremias.pinheiro.movie.api.controller;
 
 import com.jeremias.pinheiro.movie.api.dto.MovieDTO;
 import com.jeremias.pinheiro.movie.api.entity.Movie;
+import com.jeremias.pinheiro.movie.api.enums.MovieGenre;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public interface AbstractController {
     ResponseEntity<?> findMovieById(@PathVariable("id") Long id);
 
     @GetMapping("/search/type/genre/{movieGenre}")
-    ResponseEntity<?> findMovieByMovieGenre(@PathVariable("movieGenre") String movieGenre);
+    ResponseEntity<?> findMovieByMovieGenre(@PathVariable("movieGenre") MovieGenre movieGenre);
 
     @PutMapping("/update/id/{id}")
     ResponseEntity<?> updateMovieById(@PathVariable("id") Long id,@RequestBody MovieDTO dto);

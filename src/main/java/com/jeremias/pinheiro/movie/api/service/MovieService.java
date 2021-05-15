@@ -2,6 +2,7 @@ package com.jeremias.pinheiro.movie.api.service;
 
 import com.jeremias.pinheiro.movie.api.dto.MovieDTO;
 import com.jeremias.pinheiro.movie.api.entity.Movie;
+import com.jeremias.pinheiro.movie.api.enums.MovieGenre;
 import com.jeremias.pinheiro.movie.api.exception.FilmExceptionAlreadyExists;
 import com.jeremias.pinheiro.movie.api.exception.MovieNotFoundException;
 import com.jeremias.pinheiro.movie.api.repository.MovieRepository;
@@ -46,8 +47,8 @@ public class MovieService implements AbstractService<MovieDTO>{
     }*/
 
     @Override
-    public List<MovieDTO> findMovieByMovieGenre(String movieGenre) {
-        
+    public List<MovieDTO> findMovieByMovieGenre(MovieGenre movieGenre) {
+
         List<Movie> movies = repository.findMovieByMovieGenre(movieGenre);
         return convertDTO(movies);
     }
@@ -67,10 +68,13 @@ public class MovieService implements AbstractService<MovieDTO>{
 
     @Override
     public MovieDTO updateMovie(Long id, MovieDTO movieDTO) {
+        checkThatTheMovieIsNotNull(Optional.ofNullable(movieDTO));
         Movie search = convertDTO(findMovieById(id));
 
         search.setName(movieDTO.getName());
         search.setDescription(movieDTO.getDescription());
+        search.setDate(movieDTO.getDate());
+        search.setMoviesDirector(search.getMoviesDirector());
         search.setRating(movieDTO.getRating());
         search.setMovieGenre(movieDTO.getMovieGenre());
         return movieDTO;
@@ -92,28 +96,28 @@ public class MovieService implements AbstractService<MovieDTO>{
 
     @Override
     public Movie convertDTO(MovieDTO movieDTO) {
-        Movie movie = new Movie();
-        movie.setId(movieDTO.getId());
-        movie.setName(movieDTO.getName());
-        movie.setDate(movieDTO.getDate());
-        movie.setMoviesDirector(movieDTO.getMoviesDirector());
-        movie.setDescription(movieDTO.getDescription());
-        movie.setRating(movieDTO.getRating());
-        movie.setMovieGenre(movieDTO.getMovieGenre());
-        return movie;
+        return Movie.builder()
+                .id(movieDTO.getId())
+                .name(movieDTO.getName())
+                .date(movieDTO.getDate())
+                .moviesDirector(movieDTO.getMoviesDirector())
+                .description(movieDTO.getDescription())
+                .rating(movieDTO.getRating())
+                .movieGenre(movieDTO.getMovieGenre())
+                .build();
     }
 
     @Override
     public MovieDTO convertEntity(Movie movie) {
-        MovieDTO dto = new MovieDTO();
-        dto.setId(movie.getId());
-        dto.setName(movie.getName());
-        dto.setDate(movie.getDate());
-        dto.setMoviesDirector(movie.getMoviesDirector());
-        dto.setDescription(movie.getDescription());
-        dto.setRating(movie.getRating());
-        dto.setMovieGenre(movie.getMovieGenre());
-        return dto;
+        return MovieDTO.builder()
+                .id(movie.getId())
+                .name(movie.getName())
+                .date(movie.getDate())
+                .moviesDirector(movie.getMoviesDirector())
+                .description(movie.getDescription())
+                .rating(movie.getRating())
+                .movieGenre(movie.getMovieGenre())
+                .build();
     }
 
     @Override
