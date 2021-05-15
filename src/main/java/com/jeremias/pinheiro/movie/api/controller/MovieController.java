@@ -4,9 +4,12 @@ import com.jeremias.pinheiro.movie.api.dto.MovieDTO;
 import com.jeremias.pinheiro.movie.api.entity.Movie;
 import com.jeremias.pinheiro.movie.api.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -31,7 +34,20 @@ public class MovieController implements AbstractController{
 
 
     @Override
-    public ResponseEntity<?> findAllMovies() {
+    public ResponseEntity<?> findAllMovies( ) {
+
+        /*
+        Page<MovieDTO> movies = service.findMovies(pageable);
+        if (movies.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }else{
+            for (MovieDTO dto: movies) {
+                long id = dto.getId();
+                dto.add(linkTo(methodOn(MovieController.class).findMovieById(id)).withSelfRel());
+            }
+        }
+        return ResponseEntity.ok(movies);*/
+
         List<MovieDTO> movies = service.findMovies();
         if (movies.isEmpty()){
             return ResponseEntity.notFound().build();
@@ -44,19 +60,16 @@ public class MovieController implements AbstractController{
         return ResponseEntity.ok(movies);
     }
 
+    @Override
+    public ResponseEntity<?> findMovieByMovieGenre(String movieGenre) {
+        return ResponseEntity.ok(service.findMovieByMovieGenre(movieGenre));
+    }
 
     @Override
-    public ResponseEntity<?> saveMovie(MovieDTO movieDTO, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<?> saveMovie(MovieDTO movieDTO) {
        return new ResponseEntity<>(service.save(movieDTO),HttpStatus.CREATED);
-
-
     }
 
-
-    @Override
-    public ResponseEntity<?> findMoviesByMovieGenre(String genre) {
-        return ResponseEntity.ok(service.findMoviesByMovieGenre(genre));
-    }
 
     @Override
     public ResponseEntity<?> findMovieByName(String name) {
@@ -69,9 +82,11 @@ public class MovieController implements AbstractController{
         if (search.isEmpty()){
             return ResponseEntity.notFound().build();
         }else{
-            search.get().add(linkTo(methodOn(MovieController.class).findAllMovies()).withSelfRel());
+            search.get().add(linkTo(methodOn(MovieController.class).findAllMovies()).withRel("Listar filmes :"));
+            search.get().add(linkTo(methodOn(MovieController.class).findMovieByName(search.get().getName())).withRel("Pesquisar pelo nome:"));
             return ResponseEntity.ok(search);
         }
+
     }
 
     @Override

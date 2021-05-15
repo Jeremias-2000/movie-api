@@ -6,6 +6,8 @@ import com.jeremias.pinheiro.movie.api.exception.FilmExceptionAlreadyExists;
 import com.jeremias.pinheiro.movie.api.exception.MovieNotFoundException;
 import com.jeremias.pinheiro.movie.api.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,12 +36,19 @@ public class MovieService implements AbstractService<MovieDTO>{
 
     @Override
     public List<MovieDTO> convertDTO(List<Movie> movies) {
-        return movies.stream().map(MovieDTO :: new).collect(Collectors.toList());
+        return movies.stream().map(MovieDTO::new).collect(Collectors.toList());
     }
+    /*
+    @Override
+    public Page<MovieDTO> findMoviesByMovieGenre(String genre, Pageable pageable) {
+        Page<Movie> movies =  repository.findMovieByMovieGenre(genre,pageable);
+        return convertDTO(movies);
+    }*/
 
     @Override
-    public List<MovieDTO> findMoviesByMovieGenre(String genre) {
-        List<Movie> movies =  repository.findMovieByMovieGenre(genre);
+    public List<MovieDTO> findMovieByMovieGenre(String movieGenre) {
+        
+        List<Movie> movies = repository.findMovieByMovieGenre(movieGenre);
         return convertDTO(movies);
     }
 
@@ -69,23 +78,25 @@ public class MovieService implements AbstractService<MovieDTO>{
 
     @Override
     public MovieDTO save(MovieDTO movieDTO) {
-        checkThatTheMovieIsNotNull(ofNullable(movieDTO));
-        checkIfTheMovieIsAlreadyRegistered(movieDTO);
+
         Movie movie = convertDTO(movieDTO);
         repository.save(movie);
+
         return movieDTO;
     }
 
     @Override
     public void deleteMovieById(Long id) {
-        Movie deleted = convertDTO(findMovieById(id));
-        repository.delete(deleted);
+       repository.deleteById(id);
     }
 
     @Override
     public Movie convertDTO(MovieDTO movieDTO) {
-        Movie movie = null;
+        Movie movie = new Movie();
+        movie.setId(movieDTO.getId());
         movie.setName(movieDTO.getName());
+        movie.setDate(movieDTO.getDate());
+        movie.setMoviesDirector(movieDTO.getMoviesDirector());
         movie.setDescription(movieDTO.getDescription());
         movie.setRating(movieDTO.getRating());
         movie.setMovieGenre(movieDTO.getMovieGenre());
@@ -94,9 +105,11 @@ public class MovieService implements AbstractService<MovieDTO>{
 
     @Override
     public MovieDTO convertEntity(Movie movie) {
-        MovieDTO dto = null;
+        MovieDTO dto = new MovieDTO();
         dto.setId(movie.getId());
         dto.setName(movie.getName());
+        dto.setDate(movie.getDate());
+        dto.setMoviesDirector(movie.getMoviesDirector());
         dto.setDescription(movie.getDescription());
         dto.setRating(movie.getRating());
         dto.setMovieGenre(movie.getMovieGenre());
