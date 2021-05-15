@@ -9,16 +9,17 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AbstractService<M> {
-    Page<M> findMovies(Pageable pageable);
+    List<M> findMovies();
 
     M findMovieByName(String name);
+    List<M> findMovieByMovieGenre(String movieGenre);
     M findMovieById(Long id);
     M updateMovie(Long id, MovieDTO movieDTO);
     M save(MovieDTO movieDTO);
     void deleteMovieById(Long id);
     Movie convertDTO (MovieDTO movieDTO);
     M convertEntity(Movie movie);
-    Page<M> convertDTO(Page<Movie> movies);
+    List<M> convertDTO(List<Movie> movies);
     void checkThatTheMovieIsNotNull(Optional<MovieDTO> dto);
     void checkIfTheMovieIsAlreadyRegistered(MovieDTO dto);
 }

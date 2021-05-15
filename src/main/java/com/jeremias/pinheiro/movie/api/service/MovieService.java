@@ -29,14 +29,14 @@ public class MovieService implements AbstractService<MovieDTO>{
 
 
     @Override
-    public Page<MovieDTO> findMovies(Pageable pageable) {
-        Page<Movie> movies = repository.findAll(pageable);
+    public List<MovieDTO> findMovies() {
+        List<Movie> movies = repository.findAll();
         return convertDTO(movies);
     }
 
     @Override
-    public Page<MovieDTO> convertDTO(Page<Movie> movies) {
-        return movies.map(MovieDTO::new);
+    public List<MovieDTO> convertDTO(List<Movie> movies) {
+        return movies.stream().map(MovieDTO::new).collect(Collectors.toList());
     }
     /*
     @Override
@@ -44,6 +44,13 @@ public class MovieService implements AbstractService<MovieDTO>{
         Page<Movie> movies =  repository.findMovieByMovieGenre(genre,pageable);
         return convertDTO(movies);
     }*/
+
+    @Override
+    public List<MovieDTO> findMovieByMovieGenre(String movieGenre) {
+        
+        List<Movie> movies = repository.findMovieByMovieGenre(movieGenre);
+        return convertDTO(movies);
+    }
 
     @Override
     public MovieDTO findMovieByName(String name) {
@@ -74,20 +81,22 @@ public class MovieService implements AbstractService<MovieDTO>{
 
         Movie movie = convertDTO(movieDTO);
         repository.save(movie);
+
         return movieDTO;
     }
 
     @Override
     public void deleteMovieById(Long id) {
-        Movie deleted = convertDTO(findMovieById(id));
-        repository.delete(deleted);
+       repository.deleteById(id);
     }
 
     @Override
     public Movie convertDTO(MovieDTO movieDTO) {
         Movie movie = new Movie();
-        movie.setId(movie.getId());
+        movie.setId(movieDTO.getId());
         movie.setName(movieDTO.getName());
+        movie.setDate(movieDTO.getDate());
+        movie.setMoviesDirector(movieDTO.getMoviesDirector());
         movie.setDescription(movieDTO.getDescription());
         movie.setRating(movieDTO.getRating());
         movie.setMovieGenre(movieDTO.getMovieGenre());
@@ -99,6 +108,8 @@ public class MovieService implements AbstractService<MovieDTO>{
         MovieDTO dto = new MovieDTO();
         dto.setId(movie.getId());
         dto.setName(movie.getName());
+        dto.setDate(movie.getDate());
+        dto.setMoviesDirector(movie.getMoviesDirector());
         dto.setDescription(movie.getDescription());
         dto.setRating(movie.getRating());
         dto.setMovieGenre(movie.getMovieGenre());

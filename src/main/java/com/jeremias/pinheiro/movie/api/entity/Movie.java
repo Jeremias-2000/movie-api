@@ -5,11 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Data
@@ -25,6 +27,11 @@ public class Movie  {
 
     @NotBlank
     private String name;
+    @NotBlank
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private Date date;
+    @NotBlank
+    private String moviesDirector;
     @NotBlank
     private String description;
     @NotBlank
