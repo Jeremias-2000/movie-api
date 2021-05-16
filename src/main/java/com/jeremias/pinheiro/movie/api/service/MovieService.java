@@ -30,28 +30,27 @@ public class MovieService implements AbstractService<MovieDTO>{
 
 
     @Override
-    public List<MovieDTO> findMovies() {
-        List<Movie> movies = repository.findAll();
+    public Page<MovieDTO> findMovies(Pageable pageable) {
+        Page<Movie> movies = repository.findAll(pageable);
         return convertDTO(movies);
     }
 
     @Override
-    public List<MovieDTO> convertDTO(List<Movie> movies) {
-        return movies.stream().map(MovieDTO::new).collect(Collectors.toList());
+    public Page<MovieDTO> convertDTO(Page<Movie> movies) {
+        return movies.map(MovieDTO::new);
     }
-    /*
-    @Override
-    public Page<MovieDTO> findMoviesByMovieGenre(String genre, Pageable pageable) {
-        Page<Movie> movies =  repository.findMovieByMovieGenre(genre,pageable);
-        return convertDTO(movies);
-    }*/
 
     @Override
+    public Page<MovieDTO> findMovieByMovieGenre(MovieGenre movieGenre, Pageable pageable) {
+        Page<Movie> movies =  repository.findMovieByMovieGenre(movieGenre,pageable);
+        return convertDTO(movies);
+    }
+    /*@Override
     public List<MovieDTO> findMovieByMovieGenre(MovieGenre movieGenre) {
 
         List<Movie> movies = repository.findMovieByMovieGenre(movieGenre);
         return convertDTO(movies);
-    }
+    }*/
 
     @Override
     public MovieDTO findMovieByName(String name) {
@@ -74,7 +73,7 @@ public class MovieService implements AbstractService<MovieDTO>{
         search.setName(movieDTO.getName());
         search.setDescription(movieDTO.getDescription());
         search.setDate(movieDTO.getDate());
-        search.setMoviesDirector(search.getMoviesDirector());
+        search.setMoviesDirector(movieDTO.getMoviesDirector());
         search.setRating(movieDTO.getRating());
         search.setMovieGenre(movieDTO.getMovieGenre());
         return movieDTO;

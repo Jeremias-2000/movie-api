@@ -24,14 +24,14 @@ import java.util.Date;
 public class MovieDTO extends RepresentationModel<MovieDTO> {
 
 
+    private long id;
 
-    private Long id;
-    @NotNull
+    @NotBlank
     private String name;
-    @NotNull
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @NotBlank
+
     private Date date;
-    @NotNull
+    @NotBlank
     private String moviesDirector;
     @NotBlank
     private String description;
@@ -45,6 +45,8 @@ public class MovieDTO extends RepresentationModel<MovieDTO> {
     public MovieDTO(Movie movie) {
         this.id = movie.getId();
         this.name = movie.getName();
+        this.date = movie.getDate();
+        this.moviesDirector = movie.getMoviesDirector();
         this.description = movie.getDescription();
         this.rating = movie.getRating();
         this.movieGenre = movie.getMovieGenre();

@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface MovieRepository extends JpaRepository<Movie,Long> {
 
-    List<Movie> findMovieByMovieGenre(MovieGenre genre);
+    Page<Movie> findMovieByMovieGenre(MovieGenre genre,Pageable pageable);
 
     Movie findMovieByName(String name);
 }

@@ -12,7 +12,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 public interface AbstractController {
 
     @GetMapping("/search/all")
-    ResponseEntity<?> findAllMovies();
+    ResponseEntity<?> findAllMovies(Pageable pageable);
 
 
 
@@ -23,7 +23,7 @@ public interface AbstractController {
     ResponseEntity<?> findMovieById(@PathVariable("id") Long id);
 
     @GetMapping("/search/type/genre/{movieGenre}")
-    ResponseEntity<?> findMovieByMovieGenre(@PathVariable("movieGenre") MovieGenre movieGenre);
+    ResponseEntity<?> findMovieByMovieGenre(@PathVariable("movieGenre") MovieGenre movieGenre,Pageable pageable);
 
     @PutMapping("/update/id/{id}")
     ResponseEntity<?> updateMovieById(@PathVariable("id") Long id,@RequestBody MovieDTO dto);
