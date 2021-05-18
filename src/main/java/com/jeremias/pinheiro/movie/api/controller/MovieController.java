@@ -33,7 +33,25 @@ public class MovieController implements AbstractController{
         this.service = service;
     }
 
+    @Override
+    public ResponseEntity<?> findAllMoviesTest() {
+        List<MovieDTO> movies = service.findMoviesTest();
+        if (movies.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
 
+        else{
+            for (MovieDTO dto: movies) {
+                long id = dto.getId();
+                MovieGenre genre = dto.getMovieGenre();
+                dto.add(linkTo(methodOn(MovieController.class).findMovieById(id)).withSelfRel());
+            }
+        }
+        return ResponseEntity.ok(movies);
+    }
+
+
+    /*
     @Override
     public ResponseEntity<?> findAllMovies(Pageable pageable ) {
 
@@ -55,6 +73,8 @@ public class MovieController implements AbstractController{
         return ResponseEntity.ok(movies);
 
     }
+    */
+
 
    @Override
     public ResponseEntity<?> findMovieByMovieGenre(MovieGenre movieGenre,Pageable pageable) {

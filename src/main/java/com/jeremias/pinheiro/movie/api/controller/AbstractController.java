@@ -12,7 +12,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 public interface AbstractController {
 
     @GetMapping("/search/all")
-    ResponseEntity<?> findAllMovies(Pageable pageable);
+    ResponseEntity<?> findAllMoviesTest();
+
+
+
+   // @GetMapping("/search/all")
+    //ResponseEntity<?> findAllMovies(Pageable pageable);
 
 
 

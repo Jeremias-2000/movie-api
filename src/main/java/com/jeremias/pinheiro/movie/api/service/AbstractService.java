@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AbstractService<M> {
-    Page<M> findMovies(Pageable pageable);
+
+    List<M> findMoviesTest();
+    //Page<M> findMovies(Pageable pageable);
 
     M findMovieByName(String name);
     Page<M> findMovieByMovieGenre(MovieGenre movieGenre,Pageable pageable);
@@ -18,6 +20,7 @@ public interface AbstractService<M> {
     M updateMovie(Long id, MovieDTO movieDTO);
     M save(MovieDTO movieDTO);
     void deleteMovieById(Long id);
+    List<M>convertDTO(List<Movie> movies);
     Movie convertDTO (MovieDTO movieDTO);
     M convertEntity(Movie movie);
     Page<M> convertDTO(Page<Movie> movies);

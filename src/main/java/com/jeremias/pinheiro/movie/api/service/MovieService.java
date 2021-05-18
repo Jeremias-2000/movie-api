@@ -30,9 +30,19 @@ public class MovieService implements AbstractService<MovieDTO>{
 
 
     @Override
+    public List<MovieDTO> findMoviesTest() {
+        return convertDTO(repository.findAll());
+    }
+
+   /* @Override
     public Page<MovieDTO> findMovies(Pageable pageable) {
         Page<Movie> movies = repository.findAll(pageable);
         return convertDTO(movies);
+    }*/
+
+    @Override
+    public List<MovieDTO> convertDTO(List<Movie> movies) {
+        return movies.stream().map(MovieDTO::new).collect(Collectors.toList());
     }
 
     @Override
@@ -61,7 +71,7 @@ public class MovieService implements AbstractService<MovieDTO>{
     @Override
     public MovieDTO findMovieById(Long id) {
         MovieDTO dto = convertEntity( repository.findById(id)
-                .orElseThrow(() -> new MovieNotFoundException(id)));
+                .orElseThrow(() -> new MovieNotFoundException("movie not found with "+ id)));
         return dto;
     }
 
@@ -90,6 +100,7 @@ public class MovieService implements AbstractService<MovieDTO>{
 
     @Override
     public void deleteMovieById(Long id) {
+        findMovieById(id);
        repository.deleteById(id);
     }
 
