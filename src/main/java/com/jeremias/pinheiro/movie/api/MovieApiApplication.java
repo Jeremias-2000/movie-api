@@ -2,6 +2,7 @@ package com.jeremias.pinheiro.movie.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.web.cors.CorsConfiguration;
@@ -12,6 +13,7 @@ import java.util.Arrays;
 
 @SpringBootApplication
 @EnableSpringDataWebSupport
+@EnableCaching
 public class MovieApiApplication {
 
 	public static void main(String[] args) {

@@ -5,6 +5,7 @@ import com.jeremias.pinheiro.movie.api.entity.Movie;
 import com.jeremias.pinheiro.movie.api.enums.MovieGenre;
 import com.jeremias.pinheiro.movie.api.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,7 @@ public class MovieController implements AbstractController{
     }
 
     @Override
+    @Cacheable(value = "movieList")
     public ResponseEntity<?> findAllMoviesTest() {
         List<MovieDTO> movies = service.findMoviesTest();
         if (movies.isEmpty()){
@@ -47,6 +49,7 @@ public class MovieController implements AbstractController{
                 dto.add(linkTo(methodOn(MovieController.class).findMovieById(id)).withSelfRel());
             }
         }
+        System.out.println("com cache");
         return ResponseEntity.ok(movies);
     }
 
