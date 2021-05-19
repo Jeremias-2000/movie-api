@@ -5,6 +5,7 @@ import com.jeremias.pinheiro.movie.api.entity.Movie;
 import com.jeremias.pinheiro.movie.api.enums.MovieGenre;
 import com.jeremias.pinheiro.movie.api.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,7 +50,7 @@ public class MovieController implements AbstractController{
                 dto.add(linkTo(methodOn(MovieController.class).findMovieById(id)).withSelfRel());
             }
         }
-        System.out.println("com cache");
+
         return ResponseEntity.ok(movies);
     }
 
@@ -80,11 +81,13 @@ public class MovieController implements AbstractController{
 
 
    @Override
+   @Cacheable(value = "movieGenre")
     public ResponseEntity<?> findMovieByMovieGenre(MovieGenre movieGenre,Pageable pageable) {
         return ResponseEntity.ok(service.findMovieByMovieGenre(movieGenre,pageable));
     }
 
     @Override
+    @CacheEvict(value = "movieList",allEntries = true)
     public ResponseEntity<?> saveMovie(MovieDTO movieDTO) {
        return new ResponseEntity<>(service.save(movieDTO),HttpStatus.CREATED);
     }
@@ -103,6 +106,7 @@ public class MovieController implements AbstractController{
     }
 
     @Override
+    @CacheEvict(value = "movieList",allEntries = true)
     public ResponseEntity<?> updateMovieById(Long id, MovieDTO dto) {
         return ResponseEntity.ok(service.updateMovie(id, dto));
     }
