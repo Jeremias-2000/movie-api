@@ -19,7 +19,9 @@ public enum MovieGenre {
     SCIENCEFICTION("sciencefiction"),
     WAR("war"),
     MUSICALS("musicals"),
-    ROMANCE("romance"),HORROR("horror"),THRILLER("thriller"),DRAMA("drama");
+    ROMANCE("romance"),HORROR("horror")
+    ,THRILLER("thriller")
+    ,DRAMA("drama");
 
     private final String description;
 
