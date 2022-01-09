@@ -24,6 +24,8 @@ public class MovieService implements AbstractService<MovieDTO>{
     @Autowired
     private MovieRepository repository;
 
+
+
     public MovieService(MovieRepository repository) {
         this.repository = repository;
     }
@@ -60,9 +62,9 @@ public class MovieService implements AbstractService<MovieDTO>{
 
     @Override
     public MovieDTO findMovieById(Long id) {
-        MovieDTO dto = convertEntity( repository.findById(id)
+        return convertEntity( repository.findById(id)
                 .orElseThrow(() -> new MovieNotFoundException(id)));
-        return dto;
+
     }
 
     @Override
@@ -81,7 +83,7 @@ public class MovieService implements AbstractService<MovieDTO>{
 
     @Override
     public MovieDTO save(MovieDTO movieDTO) {
-
+        checkThatTheMovieIsNotNull(Optional.ofNullable(movieDTO));
         Movie movie = convertDTO(movieDTO);
         repository.save(movie);
 
