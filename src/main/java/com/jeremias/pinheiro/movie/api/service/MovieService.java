@@ -63,7 +63,7 @@ public class MovieService implements AbstractService<MovieDTO>{
     @Override
     public MovieDTO findMovieById(Long id) {
         return convertEntity( repository.findById(id)
-                .orElseThrow(() -> new MovieNotFoundException(id)));
+                .orElseThrow(() -> new MovieNotFoundException()));
 
     }
 

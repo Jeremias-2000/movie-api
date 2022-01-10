@@ -3,6 +3,7 @@ package com.jeremias.pinheiro.movie.api.service;
 import com.jeremias.pinheiro.movie.api.dto.MovieDTO;
 import com.jeremias.pinheiro.movie.api.entity.Movie;
 import com.jeremias.pinheiro.movie.api.enums.MovieGenre;
+import com.jeremias.pinheiro.movie.api.exception.MovieNotFoundException;
 import com.jeremias.pinheiro.movie.api.repository.MovieRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -86,6 +87,12 @@ class MovieServiceTest {
         when(movieRepository.findById(movie1.getId())).thenReturn(ofNullable(movie1));
         assertNotNull(movieService.findMovieById(dto1.getId()));
         assertEquals(dto1.toString(),movieService.findMovieById(dto1.getId()).toString());
+    }
+    @Test
+    void whenTheMovieWasNotFound(){
+        MovieNotFoundException exception =  assertThrows(MovieNotFoundException.class,
+                () -> movieService.findMovieById(anyLong()));
+        assertEquals("Filme não encontrado!",exception.getMessage());
     }
 
     @Test
