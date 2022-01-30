@@ -18,9 +18,8 @@ public interface AbstractService {
     MovieDTO updateMovie(Long id, MovieDTO movieDTO);
     MovieDTO save(MovieDTO movieDTO);
     void deleteMovieById(Long id);
-    Movie convertDTO (MovieDTO movieDTO);
-    MovieDTO convertEntity(Movie movie);
-    Page<MovieDTO> convertDTO(Page<Movie> movies);
+
+
     void checkThatTheMovieIsNotNull(Optional<MovieDTO> dto);
     void checkIfTheMovieIsAlreadyRegistered(MovieDTO dto);
 }

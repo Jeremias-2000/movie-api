@@ -5,6 +5,7 @@ import com.jeremias.pinheiro.movie.api.entity.Movie;
 import com.jeremias.pinheiro.movie.api.enums.MovieGenre;
 import com.jeremias.pinheiro.movie.api.exception.FilmExceptionAlreadyExists;
 import com.jeremias.pinheiro.movie.api.exception.MovieNotFoundException;
+import com.jeremias.pinheiro.movie.api.mapper.MovieMapper;
 import com.jeremias.pinheiro.movie.api.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,7 +20,7 @@ import static java.util.Optional.*;
 
 
 @Service
-public class MovieService implements AbstractService<{
+public class MovieService implements AbstractService{
 
     @Autowired
     private MovieRepository repository;
@@ -33,36 +34,28 @@ public class MovieService implements AbstractService<{
 
     @Override
     public Page<MovieDTO> findMovies(Pageable pageable) {
-        Page<Movie> movies = repository.findAll(pageable);
-        return convertDTO(movies);
+        return repository.findAll(pageable).map(MovieMapper::convertToDTO);
+
     }
 
-    @Override
-    public Page<MovieDTO> convertDTO(Page<Movie> movies) {
-        return movies.map(MovieDTO::new);
-    }
+
 
     @Override
     public Page<MovieDTO> findMovieByMovieGenre(MovieGenre movieGenre, Pageable pageable) {
-        Page<Movie> movies =  repository.findMovieByMovieGenre(movieGenre,pageable);
-        return convertDTO(movies);
-    }
-    /*@Override
-    public List<MovieDTO> findMovieByMovieGenre(MovieGenre movieGenre) {
+        return repository.findMovieByMovieGenre(movieGenre,pageable).map(MovieMapper::convertToDTO);
 
-        List<Movie> movies = repository.findMovieByMovieGenre(movieGenre);
-        return convertDTO(movies);
-    }*/
+    }
+
 
     @Override
     public MovieDTO findMovieByName(String name) {
-        MovieDTO dto = convertEntity(repository.findMovieByName(name));
-        return dto;
+        return MovieMapper.convertToDTO(repository.findMovieByName(name));
+
     }
 
     @Override
     public MovieDTO findMovieById(Long id) {
-        return convertEntity( repository.findById(id)
+        return MovieMapper.convertToDTO( repository.findById(id)
                 .orElseThrow(() -> new MovieNotFoundException()));
 
     }
@@ -70,21 +63,16 @@ public class MovieService implements AbstractService<{
     @Override
     public MovieDTO updateMovie(Long id, MovieDTO movieDTO) {
         checkThatTheMovieIsNotNull(Optional.ofNullable(movieDTO));
-        Movie search = convertDTO(findMovieById(id));
+        return MovieMapper.convertToDTO(repository.findById(id)
+                .map(movie -> MovieMapper.convertToEntity(movieDTO))
+                .orElseThrow(() -> new MovieNotFoundException()));
 
-        search.setName(movieDTO.getName());
-        search.setDescription(movieDTO.getDescription());
-        search.setDate(movieDTO.getDate());
-        search.setMoviesDirector(movieDTO.getMoviesDirector());
-        search.setRating(movieDTO.getRating());
-        search.setMovieGenre(movieDTO.getMovieGenre());
-        return movieDTO;
     }
 
     @Override
     public MovieDTO save(MovieDTO movieDTO) {
         checkThatTheMovieIsNotNull(Optional.ofNullable(movieDTO));
-        Movie movie = convertDTO(movieDTO);
+        Movie movie = MovieMapper.convertToEntity(movieDTO);
         repository.save(movie);
 
         return movieDTO;
@@ -95,31 +83,7 @@ public class MovieService implements AbstractService<{
        repository.deleteById(id);
     }
 
-    @Override
-    public Movie convertDTO(MovieDTO movieDTO) {
-        return Movie.builder()
-                .id(movieDTO.getId())
-                .name(movieDTO.getName())
-                .date(movieDTO.getDate())
-                .moviesDirector(movieDTO.getMoviesDirector())
-                .description(movieDTO.getDescription())
-                .rating(movieDTO.getRating())
-                .movieGenre(movieDTO.getMovieGenre())
-                .build();
-    }
 
-    @Override
-    public MovieDTO convertEntity(Movie movie) {
-        return MovieDTO.builder()
-                .id(movie.getId())
-                .name(movie.getName())
-                .date(movie.getDate())
-                .moviesDirector(movie.getMoviesDirector())
-                .description(movie.getDescription())
-                .rating(movie.getRating())
-                .movieGenre(movie.getMovieGenre())
-                .build();
-    }
 
     @Override
     public void checkThatTheMovieIsNotNull(Optional<MovieDTO> dto) {
@@ -129,7 +93,7 @@ public class MovieService implements AbstractService<{
 
     @Override
     public void checkIfTheMovieIsAlreadyRegistered(MovieDTO dto) {
-        Movie convert = convertDTO(dto);
+        Movie convert = MovieMapper.convertToEntity(dto);
         Optional<Movie> check;
         check = Optional.ofNullable(repository.findMovieByName(convert.getName()));
         if (check.isPresent()){

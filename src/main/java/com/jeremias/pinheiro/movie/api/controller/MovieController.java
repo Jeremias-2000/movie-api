@@ -31,9 +31,6 @@ public class MovieController {
     private AbstractService service;
 
 
-
-
-
     public ResponseEntity<?> findAllMovies(Pageable pageable ) {
 
 

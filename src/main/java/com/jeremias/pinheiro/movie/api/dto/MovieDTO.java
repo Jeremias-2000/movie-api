@@ -34,9 +34,8 @@ public class MovieDTO extends RepresentationModel<MovieDTO> {
     @NotBlank
     private String name;
 
-    @JsonSerialize(@JsonFormat(pattern = "dd-MM-yyyy"))
-    @JsonDeserialize( @JsonFormat(pattern = "dd-MM-yyyy"))
-    private LocalDate date;
+
+    private Date date;
     @NotBlank
     private String moviesDirector;
     @NotBlank
@@ -48,14 +47,5 @@ public class MovieDTO extends RepresentationModel<MovieDTO> {
     private MovieGenre movieGenre;
 
 
-    public MovieDTO(Movie movie) {
-        this.id = movie.getId();
-        this.name = movie.getName();
-        this.date = movie.getDate();
-        this.moviesDirector = movie.getMoviesDirector();
-        this.description = movie.getDescription();
-        this.rating = movie.getRating();
-        this.movieGenre = movie.getMovieGenre();
 
-    }
 }
