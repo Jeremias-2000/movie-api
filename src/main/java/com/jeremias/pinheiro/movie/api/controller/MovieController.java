@@ -1,25 +1,17 @@
 package com.jeremias.pinheiro.movie.api.controller;
 
 import com.jeremias.pinheiro.movie.api.dto.MovieDTO;
-import com.jeremias.pinheiro.movie.api.entity.Movie;
+
 import com.jeremias.pinheiro.movie.api.enums.MovieGenre;
 import com.jeremias.pinheiro.movie.api.service.AbstractService;
-import com.jeremias.pinheiro.movie.api.service.MovieService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
-import java.util.List;
-import java.util.Optional;
-
-import static java.util.Optional.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -30,7 +22,7 @@ public class MovieController {
     @Autowired
     private AbstractService service;
 
-
+    @GetMapping("/movies")
     public ResponseEntity<?> findAllMovies(Pageable pageable ) {
 
 
@@ -52,34 +44,34 @@ public class MovieController {
 
     }
 
-
-    public ResponseEntity<?> findMovieByMovieGenre(MovieGenre movieGenre,Pageable pageable) {
+    @GetMapping("/movies/genre/{genre}")
+    public ResponseEntity<?> findMovieByMovieGenre(@PathVariable("genre") MovieGenre movieGenre, Pageable pageable) {
         return ResponseEntity.ok(service.findMovieByMovieGenre(movieGenre,pageable));
     }
 
-
-    public ResponseEntity<?> saveMovie(MovieDTO movieDTO) {
-       return new ResponseEntity<>(service.save(movieDTO),HttpStatus.CREATED);
-    }
-
-
-
-    public ResponseEntity<?> findMovieByName(String name) {
+    @GetMapping("/movie/name/{name}")
+    public ResponseEntity<?> findMovieByName(@PathVariable("name") String name) {
         return ResponseEntity.ok(service.findMovieByName(name));
     }
 
-
-    public ResponseEntity<?> findMovieById(String id) {
+    @GetMapping("/movie/id/{id}")
+    public ResponseEntity<?> findMovieById(@PathVariable("id") String id) {
 
         return ResponseEntity.ok(service.findMovieById(id));
 
     }
 
-    public ResponseEntity<?> updateMovieById(String id, MovieDTO dto) {
-        return ResponseEntity.ok(service.updateMovie(id, dto));
+    @PostMapping("/movie/register")
+    public ResponseEntity<?> saveMovie(MovieDTO movieDTO) {
+        return new ResponseEntity<>(service.save(movieDTO),HttpStatus.CREATED);
     }
 
-    public ResponseEntity<?> deleteMovieById(String id) {
+    @PutMapping("/movie/update/id/{id}")
+    public ResponseEntity<?> updateMovieById(@PathVariable("id") String id, MovieDTO dto) {
+        return ResponseEntity.ok(service.updateMovie(id, dto));
+    }
+    @DeleteMapping("/movie/delete/id/{id}")
+    public ResponseEntity<?> deleteMovieById(@PathVariable("id") String id) {
         service.deleteMovieById(id);
         return ResponseEntity.ok().build();
     }
