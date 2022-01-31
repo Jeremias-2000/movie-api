@@ -1,30 +1,38 @@
 package com.jeremias.pinheiro.movie.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
+import com.fasterxml.jackson.databind.ser.std.DateSerializer;
 import com.jeremias.pinheiro.movie.api.enums.MovieGenre;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.hateoas.RepresentationModel;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-import java.time.LocalDate;
+
 import java.util.Date;
 
-@Entity
-@Builder
+import static com.fasterxml.jackson.databind.deser.std.DateDeserializers.*;
+
+
+
 @Data
-@AllArgsConstructor
+@Builder
+@Document
 @NoArgsConstructor
+@AllArgsConstructor
 public class Movie  {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private String id;
 
     private String name;
-
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonDeserialize(using = DateDeserializer.class)
+    @JsonSerialize(using = DateSerializer.class)
     private Date date;
 
     private String moviesDirector;
@@ -33,7 +41,7 @@ public class Movie  {
 
     private double rating;
 
-    @Enumerated(EnumType.STRING)
+
     private MovieGenre movieGenre;
 
 

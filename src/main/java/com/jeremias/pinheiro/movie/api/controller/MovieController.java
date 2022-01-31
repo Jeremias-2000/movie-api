@@ -42,7 +42,7 @@ public class MovieController {
 
         else{
             for (MovieDTO dto: movies) {
-                long id = dto.getId();
+                String id = dto.getId();
                 MovieGenre genre = dto.getMovieGenre();
                 dto.add(linkTo(methodOn(MovieController.class).findMovieById(id)).withSelfRel());
                 dto.add(linkTo(methodOn(MovieController.class).findMovieByMovieGenre(genre,pageable)).withSelfRel());
@@ -69,17 +69,17 @@ public class MovieController {
     }
 
 
-    public ResponseEntity<?> findMovieById(Long id) {
+    public ResponseEntity<?> findMovieById(String id) {
 
         return ResponseEntity.ok(service.findMovieById(id));
 
     }
 
-    public ResponseEntity<?> updateMovieById(Long id, MovieDTO dto) {
+    public ResponseEntity<?> updateMovieById(String id, MovieDTO dto) {
         return ResponseEntity.ok(service.updateMovie(id, dto));
     }
 
-    public ResponseEntity<?> deleteMovieById(Long id) {
+    public ResponseEntity<?> deleteMovieById(String id) {
         service.deleteMovieById(id);
         return ResponseEntity.ok().build();
     }

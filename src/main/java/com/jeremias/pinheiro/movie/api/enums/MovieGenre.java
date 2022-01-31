@@ -1,13 +1,14 @@
 package com.jeremias.pinheiro.movie.api.enums;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.stream.Stream;
 
 
 @Getter
 @AllArgsConstructor
+@JsonFormat(shape = JsonFormat.Shape.STRING)
 public enum MovieGenre {
     ACTION("action"),
     ANIMATION("animation"),
@@ -19,16 +20,14 @@ public enum MovieGenre {
     SCIENCEFICTION("sciencefiction"),
     WAR("war"),
     MUSICALS("musicals"),
-    ROMANCE("romance"),HORROR("horror"),THRILLER("thriller"),DRAMA("drama");
+    ROMANCE("romance"),
+    HORROR("horror"),
+    THRILLER("thriller"),
+    DRAMA("drama");
 
     private final String description;
 
-    public static MovieGenre of(String value){
-        return Stream.of(MovieGenre.values())
-                .filter(it -> it.getDescription().equals(value))
-                .findFirst()
-                .orElseThrow();
-    }
+
 
 
 

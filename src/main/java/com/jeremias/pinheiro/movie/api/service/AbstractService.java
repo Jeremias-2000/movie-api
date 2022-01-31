@@ -14,10 +14,10 @@ public interface AbstractService {
 
     MovieDTO findMovieByName(String name);
     Page<MovieDTO> findMovieByMovieGenre(MovieGenre movieGenre,Pageable pageable);
-    MovieDTO findMovieById(Long id);
-    MovieDTO updateMovie(Long id, MovieDTO movieDTO);
+    MovieDTO findMovieById(String id);
+    MovieDTO updateMovie(String id, MovieDTO movieDTO);
     MovieDTO save(MovieDTO movieDTO);
-    void deleteMovieById(Long id);
+    void deleteMovieById(String id);
 
 
     void checkThatTheMovieIsNotNull(Optional<MovieDTO> dto);

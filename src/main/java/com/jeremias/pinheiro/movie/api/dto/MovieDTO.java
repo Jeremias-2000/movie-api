@@ -15,8 +15,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.hateoas.RepresentationModel;
 
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -29,7 +28,7 @@ import java.util.Date;
 public class MovieDTO extends RepresentationModel<MovieDTO> {
 
 
-    private long id;
+    private String id;
 
     @NotBlank
     private String name;
@@ -43,7 +42,7 @@ public class MovieDTO extends RepresentationModel<MovieDTO> {
     @NotBlank
     private double rating;
     @NotNull
-    @Enumerated(EnumType.STRING)
+
     private MovieGenre movieGenre;
 
 

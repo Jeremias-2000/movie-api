@@ -54,14 +54,14 @@ public class MovieService implements AbstractService{
     }
 
     @Override
-    public MovieDTO findMovieById(Long id) {
+    public MovieDTO findMovieById(String id) {
         return MovieMapper.convertToDTO( repository.findById(id)
                 .orElseThrow(() -> new MovieNotFoundException()));
 
     }
 
     @Override
-    public MovieDTO updateMovie(Long id, MovieDTO movieDTO) {
+    public MovieDTO updateMovie(String id, MovieDTO movieDTO) {
         checkThatTheMovieIsNotNull(Optional.ofNullable(movieDTO));
         return MovieMapper.convertToDTO(repository.findById(id)
                 .map(movie -> MovieMapper.convertToEntity(movieDTO))
@@ -79,7 +79,7 @@ public class MovieService implements AbstractService{
     }
 
     @Override
-    public void deleteMovieById(Long id) {
+    public void deleteMovieById(String id) {
        repository.deleteById(id);
     }
 
