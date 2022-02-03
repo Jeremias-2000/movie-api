@@ -28,21 +28,15 @@ public class Movie  {
 
     @Id
     private String id;
-
     private String name;
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    @JsonDeserialize(using = DateDeserializer.class)
-    @JsonSerialize(using = DateSerializer.class)
+    //private String imageUrl;
     private Date date;
-
     private String moviesDirector;
-
     private String description;
-
     private double rating;
-
-
     private MovieGenre movieGenre;
+
+
 
 
 }

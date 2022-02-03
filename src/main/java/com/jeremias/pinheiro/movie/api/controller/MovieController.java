@@ -12,8 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 
 @RestController
 @RequestMapping("/api/v1/movies")
@@ -23,30 +22,15 @@ public class MovieController {
     private AbstractService service;
 
     @GetMapping("/movies")
-    public ResponseEntity<?> findAllMovies(Pageable pageable ) {
+    public ResponseEntity<?> findAllMovies( ) {
 
-
-
-        Page<MovieDTO> movies = service.findMovies(pageable);
-        if (movies.isEmpty()){
-            return ResponseEntity.notFound().build();
-        }
-
-        else{
-            for (MovieDTO dto: movies) {
-                String id = dto.getId();
-                MovieGenre genre = dto.getMovieGenre();
-                dto.add(linkTo(methodOn(MovieController.class).findMovieById(id)).withSelfRel());
-                dto.add(linkTo(methodOn(MovieController.class).findMovieByMovieGenre(genre,pageable)).withSelfRel());
-            }
-        }
-        return ResponseEntity.ok(movies);
+        return ResponseEntity.ok(service.findMovies());
 
     }
 
     @GetMapping("/movies/genre/{genre}")
-    public ResponseEntity<?> findMovieByMovieGenre(@PathVariable("genre") MovieGenre movieGenre, Pageable pageable) {
-        return ResponseEntity.ok(service.findMovieByMovieGenre(movieGenre,pageable));
+    public ResponseEntity<?> findMovieByMovieGenre(@PathVariable("genre") MovieGenre movieGenre) {
+        return ResponseEntity.ok(service.findMovieByMovieGenre(movieGenre));
     }
 
     @GetMapping("/movie/name/{name}")

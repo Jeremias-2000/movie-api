@@ -7,13 +7,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 
+import java.util.List;
 import java.util.Optional;
 
 public interface AbstractService {
-    Page<MovieDTO> findMovies(Pageable pageable);
+    List<MovieDTO> findMovies();
 
     MovieDTO findMovieByName(String name);
-    Page<MovieDTO> findMovieByMovieGenre(MovieGenre movieGenre,Pageable pageable);
+    List<MovieDTO> findMovieByMovieGenre(MovieGenre movieGenre);
     MovieDTO findMovieById(String id);
     MovieDTO updateMovie(String id, MovieDTO movieDTO);
     MovieDTO save(MovieDTO movieDTO);

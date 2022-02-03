@@ -32,17 +32,20 @@ public class MovieService implements AbstractService{
     }
 
 
-    @Override
-    public Page<MovieDTO> findMovies(Pageable pageable) {
-        return repository.findAll(pageable).map(MovieMapper::convertToDTO);
+
+    public List<MovieDTO> findMovies() {
+        return  repository.findAll()
+                .stream().map(MovieMapper::convertToDTO)
+                .collect(Collectors.toList());
 
     }
 
 
 
-    @Override
-    public Page<MovieDTO> findMovieByMovieGenre(MovieGenre movieGenre, Pageable pageable) {
-        return repository.findMovieByMovieGenre(movieGenre,pageable).map(MovieMapper::convertToDTO);
+    public List<MovieDTO> findMovieByMovieGenre(MovieGenre movieGenre) {
+        return repository.findMovieByMovieGenre(movieGenre)
+                .stream().map(MovieMapper::convertToDTO)
+                .collect(Collectors.toList());
 
     }
 

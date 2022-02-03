@@ -10,10 +10,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+
 @Repository
 public interface MovieRepository extends MongoRepository<Movie,String> {
 
-    Page<Movie> findMovieByMovieGenre(MovieGenre genre,Pageable pageable);
+    List<Movie> findMovieByMovieGenre(MovieGenre genre);
 
     Movie findMovieByName(String name);
 }

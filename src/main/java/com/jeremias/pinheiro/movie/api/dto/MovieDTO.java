@@ -4,15 +4,15 @@ package com.jeremias.pinheiro.movie.api.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
+import com.fasterxml.jackson.databind.ser.std.DateSerializer;
 import com.jeremias.pinheiro.movie.api.entity.Movie;
 import com.jeremias.pinheiro.movie.api.enums.MovieGenre;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.internal.util.privilegedactions.LoadClass;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.hateoas.RepresentationModel;
+
 
 
 
@@ -25,15 +25,16 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MovieDTO extends RepresentationModel<MovieDTO> {
+public class MovieDTO  {
 
 
     private String id;
 
     @NotBlank
     private String name;
-
-
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonDeserialize(using = DateDeserializers.DateDeserializer.class)
+    @JsonSerialize(using = DateSerializer.class)
     private Date date;
     @NotBlank
     private String moviesDirector;
