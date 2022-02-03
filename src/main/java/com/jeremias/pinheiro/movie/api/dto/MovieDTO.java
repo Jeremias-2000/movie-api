@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
 import com.fasterxml.jackson.databind.ser.std.DateSerializer;
-import com.jeremias.pinheiro.movie.api.entity.Movie;
 import com.jeremias.pinheiro.movie.api.enums.MovieGenre;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +17,6 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.util.Date;
 
 @Data

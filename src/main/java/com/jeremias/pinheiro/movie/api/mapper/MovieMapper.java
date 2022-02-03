@@ -1,7 +1,7 @@
 package com.jeremias.pinheiro.movie.api.mapper;
 
 import com.jeremias.pinheiro.movie.api.dto.MovieDTO;
-import com.jeremias.pinheiro.movie.api.entity.Movie;
+import com.jeremias.pinheiro.movie.api.document.Movie;
 
 public class MovieMapper {
     public static Movie convertToEntity(MovieDTO movieDTO) {

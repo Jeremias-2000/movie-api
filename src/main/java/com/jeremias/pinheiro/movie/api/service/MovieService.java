@@ -1,22 +1,18 @@
 package com.jeremias.pinheiro.movie.api.service;
 
 import com.jeremias.pinheiro.movie.api.dto.MovieDTO;
-import com.jeremias.pinheiro.movie.api.entity.Movie;
+import com.jeremias.pinheiro.movie.api.document.Movie;
 import com.jeremias.pinheiro.movie.api.enums.MovieGenre;
 import com.jeremias.pinheiro.movie.api.exception.FilmExceptionAlreadyExists;
 import com.jeremias.pinheiro.movie.api.exception.MovieNotFoundException;
 import com.jeremias.pinheiro.movie.api.mapper.MovieMapper;
 import com.jeremias.pinheiro.movie.api.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static java.util.Optional.*;
 
 
 @Service
@@ -43,7 +39,7 @@ public class MovieService implements AbstractService{
 
 
     public List<MovieDTO> findMovieByMovieGenre(MovieGenre movieGenre) {
-        return repository.findMovieByMovieGenre(movieGenre)
+        return repository.findByMovieGenre(movieGenre)
                 .stream().map(MovieMapper::convertToDTO)
                 .collect(Collectors.toList());
 
@@ -52,7 +48,7 @@ public class MovieService implements AbstractService{
 
     @Override
     public MovieDTO findMovieByName(String name) {
-        return MovieMapper.convertToDTO(repository.findMovieByName(name));
+        return MovieMapper.convertToDTO(repository.findByNameIgnoreCase(name));
 
     }
 
@@ -98,7 +94,7 @@ public class MovieService implements AbstractService{
     public void checkIfTheMovieIsAlreadyRegistered(MovieDTO dto) {
         Movie convert = MovieMapper.convertToEntity(dto);
         Optional<Movie> check;
-        check = Optional.ofNullable(repository.findMovieByName(convert.getName()));
+        check = Optional.ofNullable(repository.findByNameIgnoreCase(convert.getName()));
         if (check.isPresent()){
             throw new FilmExceptionAlreadyExists();
         }

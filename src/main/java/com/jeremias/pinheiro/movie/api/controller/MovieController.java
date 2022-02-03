@@ -6,8 +6,7 @@ import com.jeremias.pinheiro.movie.api.enums.MovieGenre;
 import com.jeremias.pinheiro.movie.api.service.AbstractService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,12 +45,12 @@ public class MovieController {
     }
 
     @PostMapping("/movie/register")
-    public ResponseEntity<?> saveMovie(MovieDTO movieDTO) {
+    public ResponseEntity<?> saveMovie(@RequestBody MovieDTO movieDTO) {
         return new ResponseEntity<>(service.save(movieDTO),HttpStatus.CREATED);
     }
 
     @PutMapping("/movie/update/id/{id}")
-    public ResponseEntity<?> updateMovieById(@PathVariable("id") String id, MovieDTO dto) {
+    public ResponseEntity<?> updateMovieById(@PathVariable("id") String id,@RequestBody MovieDTO dto) {
         return ResponseEntity.ok(service.updateMovie(id, dto));
     }
     @DeleteMapping("/movie/delete/id/{id}")
