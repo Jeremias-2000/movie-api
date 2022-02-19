@@ -16,6 +16,8 @@ public class MovieMapper {
                 .build();
     }
 
+
+
     public static MovieDTO convertToDTO(Movie movie) {
         return MovieDTO.builder()
                 .id(movie.getId())

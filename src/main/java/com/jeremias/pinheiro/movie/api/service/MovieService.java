@@ -62,10 +62,11 @@ public class MovieService implements AbstractService{
     @Override
     public MovieDTO updateMovie(String id, MovieDTO movieDTO) {
         checkThatTheMovieIsNotNull(Optional.ofNullable(movieDTO));
-        return MovieMapper.convertToDTO(repository.findById(id)
-                .map(movie -> MovieMapper.convertToEntity(movieDTO))
-                .orElseThrow(() -> new MovieNotFoundException()));
-
+        repository.findById(id)
+                .orElseThrow(()-> new MovieNotFoundException());
+        repository.save(MovieMapper.convertToEntity(movieDTO));
+        deleteMovieById(id);
+        return movieDTO;
     }
 
     @Override

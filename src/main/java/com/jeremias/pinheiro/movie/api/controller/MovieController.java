@@ -49,10 +49,12 @@ public class MovieController {
         return new ResponseEntity<>(service.save(movieDTO),HttpStatus.CREATED);
     }
 
+
     @PutMapping("/movie/update/id/{id}")
     public ResponseEntity<?> updateMovieById(@PathVariable("id") String id,@RequestBody MovieDTO dto) {
         return ResponseEntity.ok(service.updateMovie(id, dto));
     }
+
     @DeleteMapping("/movie/delete/id/{id}")
     public ResponseEntity<?> deleteMovieById(@PathVariable("id") String id) {
         service.deleteMovieById(id);
