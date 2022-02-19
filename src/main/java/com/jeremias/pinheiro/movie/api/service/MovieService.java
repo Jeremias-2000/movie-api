@@ -23,9 +23,6 @@ public class MovieService implements AbstractService{
 
 
 
-    public MovieService(MovieRepository repository) {
-        this.repository = repository;
-    }
 
 
 
