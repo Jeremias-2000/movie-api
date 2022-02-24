@@ -34,12 +34,12 @@ public class MovieDTO  {
     @JsonDeserialize(using = DateDeserializers.DateDeserializer.class)
     @JsonSerialize(using = DateSerializer.class)
     private Date date;
-    @NotBlank
-    private String moviesDirector;
+    /*@NotBlank
+    private String moviesDirector;*/
     @NotBlank
     private String description;
-    @NotBlank
-    private double rating;
+   /* @NotBlank
+    private double rating;*/
     @NotNull
 
     private MovieGenre movieGenre;

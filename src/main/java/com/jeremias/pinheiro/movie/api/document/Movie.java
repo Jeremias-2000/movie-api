@@ -21,9 +21,9 @@ public class Movie  {
     private String id;
     private String name;
     private Date date;
-    private String moviesDirector;
+   // private String moviesDirector;
     private String description;
-    private double rating;
+   // private double rating;
     private MovieGenre movieGenre;
 
 

@@ -63,8 +63,8 @@ public class MovieService implements AbstractService{
                 .orElseThrow(()-> new MovieNotFoundException());
         movie.setName(movieDTO.getName());
         movie.setDate(movieDTO.getDate());
-        movie.setMoviesDirector(movieDTO.getMoviesDirector());
-        movie.setRating(movieDTO.getRating());
+        //movie.setMoviesDirector(movieDTO.getMoviesDirector());
+        //movie.setRating(movieDTO.getRating());
         movie.setMovieGenre(movieDTO.getMovieGenre());
         repository.save(movie);
         return movieDTO;

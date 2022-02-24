@@ -9,9 +9,9 @@ public class MovieMapper {
                 .id(movieDTO.getId())
                 .name(movieDTO.getName())
                 .date(movieDTO.getDate())
-                .moviesDirector(movieDTO.getMoviesDirector())
+                //.moviesDirector(movieDTO.getMoviesDirector())
                 .description(movieDTO.getDescription())
-                .rating(movieDTO.getRating())
+                //.rating(movieDTO.getRating())
                 .movieGenre(movieDTO.getMovieGenre())
                 .build();
     }
@@ -25,9 +25,9 @@ public class MovieMapper {
                 .id(movie.getId())
                 .name(movie.getName())
                 .date(movie.getDate())
-                .moviesDirector(movie.getMoviesDirector())
+                //.moviesDirector(movie.getMoviesDirector())
                 .description(movie.getDescription())
-                .rating(movie.getRating())
+                //.rating(movie.getRating())
                 .movieGenre(movie.getMovieGenre())
                 .build();
     }
