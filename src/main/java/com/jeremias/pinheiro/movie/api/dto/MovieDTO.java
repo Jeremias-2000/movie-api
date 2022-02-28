@@ -30,7 +30,7 @@ public class MovieDTO  {
 
     @NotBlank
     private String name;
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "MM/dd/yyyy")
     @JsonDeserialize(using = DateDeserializers.DateDeserializer.class)
     @JsonSerialize(using = DateSerializer.class)
     private Date date;
